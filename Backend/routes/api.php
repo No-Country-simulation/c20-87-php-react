@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::controller(LoginController::class)->group(function(){
+    Route::post('/login_user', 'login_sesion');
+    Route::post('/crear_usuario', 'create_user');
+    Route::post('/cerrar_session', 'logout_user');
 });
