@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('type_user', function (Blueprint $table) {
+        Schema::create('type_users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string("type_user", 100)->unique();
             $table->integer("estado");
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('type_user');
+        Schema::dropIfExists('type_users');
     }
 };

@@ -26,8 +26,12 @@ class LoginController extends Controller
             ], 422);
         }
 
-        if (Auth::attempt($credentials)) {            
+        if (Auth::attempt($credentials)) {
             $user = $request->user();
+            if(!is_null($user->tokens())){
+                $user->tokens()->delete();
+            }
+            
             $tokenResult = $user->createToken('Personal Access Token: '.$user->username);
             $token = $tokenResult->plainTextToken;
 
@@ -47,7 +51,7 @@ class LoginController extends Controller
             $login_user = User::where("username", $request->username)->get();
             if (!empty($login_user)) {
                 $faileds_login = Failed_login::getFailedLogins($login_user[0]["id"]);
-                if (count($faileds_login) == 3) {                                        
+                if (count($faileds_login) == 3) {         
                     Mail::to($login_user[0]["email"])->send(new FailLoginEmail($login_user));
 
                     $update_session = User::find($login_user[0]["id"]);
