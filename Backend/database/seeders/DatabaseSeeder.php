@@ -17,19 +17,25 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory(1)->create();
 
         \App\Models\Type_user::create([
-            'type_user' => "CLIENTE",
-            'estado' => 1,
+            "type_user" => "CLIENTE",
+            "estado" => 1
         ]);
 
         \App\Models\Type_user::create([
-            'type_user' => "EMPRESA",
-            'estado' => 1,
+            "type_user" => "EMPRESA",
+            "estado" => 1
         ]);
 
         \App\Models\Type_user::create([
-            'type_user' => "ADMINISTRADOR",
-            'estado' => 1,
+            "type_user" => "ADMINISTRADOR",
+            "estado" => 1
         ]);
 
+        \App\Models\Bank_account::create([
+            "user_id" => "1",
+            "account_number" => "123456789",
+            "balance" => "250230",
+            "currency" => "PESO"
+        ]);
     }
 }
