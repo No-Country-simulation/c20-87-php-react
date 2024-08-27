@@ -9,7 +9,7 @@ interface PrimaryButtonProps {
 
 export default function PrimaryButton({label , href = "", extendClassName }:PrimaryButtonProps) {
   return (
-    <Link href={href} className={`bg-green-900 p-2 shadow-lg ${extendClassName}`}>
+    <Link href={href} className={`bg-blue-900 p-2 shadow-lg ${extendClassName}`}>
       <h1 className="text-white">{label}</h1>
     </Link>
   )
