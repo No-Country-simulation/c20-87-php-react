@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\FailLoginEmail;
+use App\Models\Failed_login;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -41,6 +44,26 @@ class LoginController extends Controller
             ], 200);
 
         }else{
+            $login_user = User::where("username", $request->username)->get();
+            if (!empty($login_user)) {
+                $faileds_login = Failed_login::getFailedLogins($login_user[0]["id"]);
+                if (count($faileds_login) == 3) {                                        
+                    Mail::to($login_user[0]["email"])->send(new FailLoginEmail($login_user));
+
+                    $update_session = User::find($login_user[0]["id"]);
+                    $update_session->status = 0;
+                    $update_session->update();
+
+                    return response()->json([
+                        'errors' => 'Maximo de intentos alcanzados, se bloqueo el usuario'
+                    ], 400);
+                }else{
+                    $create_fail_login = new Failed_login();
+                    $create_fail_login->user_id = $login_user[0]["id"];
+                    $create_fail_login->save();
+                }
+            }
+
             return response()->json([
                 'errors' => 'Los datos ingresados son incorrectos'
             ], 400);
