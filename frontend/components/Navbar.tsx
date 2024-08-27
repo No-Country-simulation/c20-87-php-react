@@ -16,7 +16,7 @@ export default function Navbar() {
     }
 
     return (
-        <div className="w-full flex">
+        <div className="w-full flex mr-5">
             <div className="w-[30%] lg:w-[20%] flex justify-center ml-5">
                 <Image
                     src={Logo}
