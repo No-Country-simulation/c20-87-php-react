@@ -1,3 +1,4 @@
+
 import Navbar from "@/components/Navbar";
 
 export default function Home() {
@@ -5,5 +6,7 @@ export default function Home() {
     <main className="w-full flex flex-col  items-center">
       <Navbar/>
     </main>
+    <Banner/>
+    </>
   );
 }
