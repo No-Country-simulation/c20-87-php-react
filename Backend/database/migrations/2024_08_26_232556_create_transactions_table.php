@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('from_account_id')->constrained('bank_accounts')->onDelete('cascade');  // FK a bank_accounts (BigInt)
             $table->foreignId('to_account_id')->constrained('bank_accounts')->onDelete('cascade');  // FK a bank_accounts (BigInt)
             $table->decimal('amount', 15, 2);  // Monto de la transacción (DECIMAL con precisión)
-            $table->enum('type', ['transferencia', 'depósito', 'retiro']);  // Tipo de transacción (ENUM)
+            $table->enum('type', ['transferencia', 'depósito', 'retiro', 'pago_servicio']);  // Tipo de transacción (ENUM)
             $table->enum('status', ['pendiente', 'completada', 'fallida']);  // Estado de la transacción (ENUM)
             $table->timestamps();  // created_at y updated_at (TIMESTAMP)
         });

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DesbloquearUser;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::controller(DesbloquearUser::class)->group(function(){
+    Route::get('/desbloquear_user/{id}', 'change_status_user')->name("desbloquear.usuario");
 });

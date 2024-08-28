@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('type_users', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string("type_user", 100)->unique();
-            $table->integer("estado");
+        Schema::create('failed_login', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('type_users');
+        Schema::dropIfExists('failed_login');
     }
 };
