@@ -59,4 +59,5 @@ class LoginController extends Controller
             'success' => 'Sesion cerrada',
         ], 200);
     }
+
 }

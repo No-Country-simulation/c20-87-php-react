@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\BankAccountController;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,4 +25,8 @@ Route::controller(LoginController::class)->group(function(){
     Route::post('/login_user', 'login_sesion');
     Route::post('/crear_usuario', 'create_user');
     Route::post('/cerrar_session', 'logout_user');
+
+    Route::post('/create-account', [BankAccountController::class, 'createAccount']);
+    Route::post('/deposit', [BankAccountController::class, 'deposit']);
+    Route::post('/withdraw', [BankAccountController::class, 'withdraw']);
 });
