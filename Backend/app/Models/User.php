@@ -50,9 +50,10 @@ class User extends Authenticatable
     ];
 
     static function getDataUser($id) {
-        return User::join("type_user AS tu", "tu.id", "=", "users.type_user")
+        return User::join("type_users AS tu", "tu.id", "=", "users.type_user")
+                    ->join("bank_accounts AS ba", "ba.user_id", "=", "users.id")
                     ->where("users.id", $id)
-                    ->select("users.id", "users.username", "users.email", "tu.type_user", "users.status", "users.session")
+                    ->select("users.id", "users.username", "users.email", "tu.type_user", "ba.balance", "ba.currency", "users.status", "users.session")
                     ->get();
     }
 }
