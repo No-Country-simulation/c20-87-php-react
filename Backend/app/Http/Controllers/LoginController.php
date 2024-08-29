@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -85,6 +86,35 @@ class LoginController extends Controller
         return response()->json([
             'success' => 'Sesion cerrada',
         ], 200);
+    }
+
+    public function create_user(Request $request) {
+        $credentials = $request->only('email', 'username');
+        $validator = Validator::make($credentials, [
+            'email' => 'required|unique:users,email',
+            'username' => 'required|unique:users,username',
+
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $user = User::create([
+            'username' => $request->input('username'),
+            'name' => $request->input('name'),
+            'lastname' => $request->input('lastname'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+            'phone_number' => $request->input('phone_number'),
+            'type_user' => $request->input('type_user'),
+            'status' => 1,
+            'session' => 1,
+        ]);
+    
+        return response()->json(['message' => 'Usuario creado', 'user' => $user], 201);
     }
 
 }
