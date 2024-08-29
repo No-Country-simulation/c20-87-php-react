@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BankAccount; 
+use App\Models\Bank_account;
+use App\Models\BankAccount;
+use App\Models\Pay_service;
+use App\Models\Transaction;
+use Illuminate\Auth\Events\Validated;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class BankAccountController extends Controller
@@ -60,5 +65,39 @@ class BankAccountController extends Controller
         $account->save();
 
         return response()->json(['message' => 'Extracción realizada con éxito', 'account' => $account], 201);
+    }
+
+    public function pay_service(Request $request){
+        $data = $request->only('user_id', 'amount', 'number_client', 'name_service');
+        $validatorPay = Validator::make($data, [
+            'user_id' => 'required|exists:users,id',
+            'amount' => 'required',
+            'number_client' => 'required', 
+            'name_service' => 'required',
+        ]);
+
+        if ($validatorPay->fails()) {
+            return response()->json([
+                'errors' => $validatorPay->errors()
+            ], 422);
+        }
+        
+        $pago_servicio = Bank_account::realizarPagoServicio($request);
+        if ($pago_servicio) {
+            $pay_service = Pay_service::create_pay($request);
+            if ($pay_service) {
+                return response()->json([
+                    'message' => 'Pago realizado con exito',
+                ], 200);
+            }else{
+                return response()->json([
+                    'message' => 'Error al realizar el pago',
+                ], 400);
+            }
+        }else{
+            return response()->json([
+                'errors' => "Saldo insuficiente para realizar la transferencia"
+            ], 400);
+        }       
     }
 }
