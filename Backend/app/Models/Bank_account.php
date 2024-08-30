@@ -9,6 +9,14 @@ class Bank_account extends Model
 {
     use HasFactory;
 
+    // Especifica los campos que se pueden llenar masivamente
+    protected $fillable = [
+        'user_id',
+        'account_number',
+        'balance',
+        'currency',
+    ];
+
     static function getDestinatario($destinatario){
         $from = Bank_account::where("account_number", $destinatario)
                             ->join("users", "users.id", "=", "user_id")
@@ -40,4 +48,12 @@ class Bank_account extends Model
 
         return $update;
     }    
+
+    // Relación con el modelo User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
 }

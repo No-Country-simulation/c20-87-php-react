@@ -93,7 +93,6 @@ class LoginController extends Controller
         $validator = Validator::make($credentials, [
             'email' => 'required|unique:users,email',
             'username' => 'required|unique:users,username',
-
         ]);
 
         if ($validator->fails()) {

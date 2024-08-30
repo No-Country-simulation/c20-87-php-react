@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BankAccount; 
+use App\Models\Bank_account;
 use Illuminate\Http\Request;
+
 
 class BankAccountController extends Controller
 {
@@ -16,7 +17,7 @@ class BankAccountController extends Controller
             'currency' => 'required|in:PESO,USD,EUR', 
         ]);
 
-        $account = BankAccount::create([
+        $account = Bank_account::create([
             'user_id' => $validatedData['user_id'],
             'account_number' => $validatedData['account_number'],
             'balance' => 0,
@@ -34,7 +35,7 @@ class BankAccountController extends Controller
             'amount' => 'required|numeric|min:0.01',
         ]);
 
-        $account = BankAccount::find($validatedData['account_id']);
+        $account = Bank_account::find($validatedData['account_id']);
         $account->balance += $validatedData['amount'];
         $account->save();
 
@@ -49,7 +50,7 @@ class BankAccountController extends Controller
             'amount' => 'required|numeric|min:0.01',
         ]);
 
-        $account = BankAccount::find($validatedData['account_id']);
+        $account = Bank_account::find($validatedData['account_id']);
 
          // Verifica si el saldo es suficiente
         if ($account->balance < $validatedData['amount']) {

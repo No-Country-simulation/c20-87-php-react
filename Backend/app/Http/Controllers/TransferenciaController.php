@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use App\Mail\NotificacionTransferenciaEnviada;
 use App\Mail\NotificacionTransferenciaRecibida;
 use App\Models\Bank_account;
@@ -16,6 +17,12 @@ class TransferenciaController extends Controller
 {
     public function create_transferencia(Request $request)
     {
+        // Verifica el token en la solicitud
+    
+        if (!$request->user()) {
+            return response()->json(['message' => 'Usuario no autenticado'], 401);
+        }
+
         $data = $request->only('monto', 'id_user', 'destinatario');        
         $validator = Validator::make($data, [
             'monto' => 'required|numeric|min:0',
@@ -30,6 +37,7 @@ class TransferenciaController extends Controller
         }
 
         $destinatario = Bank_account::getDestinatario($data['destinatario']);
+        
         if (!$destinatario) {
             return response()->json([
                 'errors' => "No se encontró al destinatario seleccionado"
