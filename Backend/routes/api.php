@@ -30,7 +30,6 @@ Route::controller(LoginController::class)->group(function(){
 });
 
 Route::controller(BankAccountController::class)->group(function(){
-    Route::post('/create-account', 'createAccount');
     Route::middleware('auth:sanctum')->post('/deposit', 'deposit');
     Route::middleware('auth:sanctum')->post('/withdraw', 'withdraw');
     Route::middleware('auth:sanctum')->post('/pay_service', 'pay_service');    

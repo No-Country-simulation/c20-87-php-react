@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Mail\FailLoginEmail;
 use App\Models\Failed_login;
 use App\Models\User;
+use App\Models\BankAccount; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+
+
 
 class LoginController extends Controller
 {
@@ -88,12 +91,12 @@ class LoginController extends Controller
         ], 200);
     }
 
+    // Metodo create_user para crear usuario y automáticamente su cuenta
     public function create_user(Request $request) {
         $credentials = $request->only('email', 'username');
         $validator = Validator::make($credentials, [
             'email' => 'required|unique:users,email',
             'username' => 'required|unique:users,username',
-
         ]);
 
         if ($validator->fails()) {
@@ -112,6 +115,14 @@ class LoginController extends Controller
             'type_user' => $request->input('type_user'),
             'status' => 1,
             'session' => 1,
+        ]);
+
+        // Crear una nueva cuenta bancaria en sistema
+        $account = BankAccount::create([
+            'user_id' => $user->id, 
+            'account_number' =>  mt_rand(1000000000, 9999999999),
+            'balance' => 0,
+            'currency' => 'PESO',
         ]);
     
         return response()->json(['message' => 'Usuario creado', 'user' => $user], 201);

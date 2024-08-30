@@ -12,24 +12,7 @@ use Illuminate\Http\Request;
 
 class BankAccountController extends Controller
 {
-    // Método para crear una nueva cuenta bancaria en sistema
-    public function createAccount(Request $request)
-    {
-        $validatedData = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'account_number' => 'required|unique:bank_accounts,account_number',
-            'currency' => 'required|in:PESO,USD,EUR', 
-        ]);
-
-        $account = BankAccount::create([
-            'user_id' => $validatedData['user_id'],
-            'account_number' => $validatedData['account_number'],
-            'balance' => 0,
-            'currency' => $validatedData['currency'],
-        ]);
-
-        return response()->json(['message' => 'Cuenta bancaria creada con éxito', 'account' => $account], 201);
-    }
+    
 
     // Método para hacer un depósito en una cuenta bancaria del sistema
     public function deposit(Request $request)
