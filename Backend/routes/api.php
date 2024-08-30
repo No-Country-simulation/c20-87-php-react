@@ -30,7 +30,6 @@ Route::controller(LoginController::class)->group(function(){
 });
 
 Route::controller(BankAccountController::class)->group(function(){
-    Route::post('/create-account', 'createAccount');
     Route::post('/deposit', 'deposit');
     Route::post('/withdraw', 'withdraw');
 });
