@@ -9,19 +9,11 @@ class Bank_account extends Model
 {
     use HasFactory;
 
-    // Especifica los campos que se pueden llenar masivamente
-    protected $fillable = [
-        'user_id',
-        'account_number',
-        'balance',
-        'currency',
-    ];
-
     static function getDestinatario($destinatario){
         $from = Bank_account::where("account_number", $destinatario)
                             ->join("users", "users.id", "=", "user_id")
-                            ->join("type_user", "users.type_user", "=", "type_user.id")
-                            ->select("users.id AS destinatario", "users.username", "type_user.type_user", "account_number")
+                            ->join("type_users", "users.type_user", "=", "type_users.id")
+                            ->select("users.id AS destinatario", "users.username", "type_users.type_user", "account_number")
                             ->get();
         return !is_null($from) ? $from : false;
     }    
@@ -49,11 +41,17 @@ class Bank_account extends Model
         return $update;
     }    
 
-    // Relación con el modelo User
-    public function user()
-    {
-        return $this->belongsTo(User::class);
+    static function realizarPagoServicio($data){
+        $account = BankAccount::where("user_id", $data->user_id)->get();
+        $data_account = BankAccount::find($account[0]["id"]);
+
+        $saldo = $data_account->balance-$data->amount;
+        if ($saldo >= 0) {
+            $data_account->balance = $saldo;
+            $update = $data_account->update();
+        }else{
+            $update = "Saldo";
+        }
+        return $update;
     }
-
-
 }
