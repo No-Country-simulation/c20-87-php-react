@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BankAccountController;
 use Illuminate\Foundation\Auth\User;
 use App\Http\Controllers\TransferenciaController;
+use App\Http\Controllers\FiltersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,7 +36,11 @@ Route::controller(BankAccountController::class)->group(function(){
     Route::middleware('auth:sanctum')->post('/pay_service', 'pay_service');    
 });
 
+
+Route::controller(FiltersController::class)->group(function(){
+    Route::middleware('auth:sanctum')->get('/transactions', 'transactions');   
+});
+
 Route::controller(TransferenciaController::class)->group(function(){
     Route::middleware('auth:sanctum')->post('/generar_transferencia', 'create_transferencia');
 });
-
