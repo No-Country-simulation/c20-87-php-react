@@ -7,7 +7,7 @@ const image3 = 'https://www.bancobcr.com/wps/wcm/connect/bcr/77a04362-c947-4e3f-
 
 export const ExtraOptionsSection = () => {
   return (
-    <div className='flex flex-col sm:flex-row text-center text-blue-800 cursor-pointer mb-10'>
+    <div className='flex flex-col sm:flex-row text-center text-blue-800 cursor-pointer my-10'>
       <div className=' p-2 h-32 sm:h-48 w-full sm:w-1/3 mb-10'>
         <Image 
           src={image1}
