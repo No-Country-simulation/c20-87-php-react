@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Bank_account;
 use App\Models\BankAccount;
 use App\Models\Pay_service;
+use App\Models\Score_crediticio;
 use App\Models\Transaction;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Support\Facades\Validator;
@@ -34,6 +35,7 @@ class BankAccountController extends Controller
             'completada'
         );
 
+        Score_crediticio::scoreCrediticio($account->user_id);
         return response()->json(['message' => 'Depósito realizado con éxito', 'account' => $account], 201);
     }
 
@@ -67,7 +69,7 @@ class BankAccountController extends Controller
         if ($transactionId === false) {
             return response()->json(['message' => 'Error al registrar la transacción'], 500);
         }
-    
+        Score_crediticio::scoreCrediticio($account->user_id);
         return response()->json(['message' => 'Extracción realizada con éxito', 'account' => $account], 201);
     }
 
@@ -90,6 +92,7 @@ class BankAccountController extends Controller
         if ($pago_servicio) {
             $pay_service = Pay_service::create_pay($request);
             if ($pay_service) {
+                Score_crediticio::scoreCrediticio($request->user_id);
                 return response()->json([
                     'message' => 'Pago realizado con exito',
                 ], 200);

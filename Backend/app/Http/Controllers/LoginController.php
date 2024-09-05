@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Mail\FailLoginEmail;
 use App\Models\Failed_login;
 use App\Models\User;
-use App\Models\BankAccount; 
+use App\Models\BankAccount;
+use App\Models\Notification_user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Response;
@@ -57,6 +58,7 @@ class LoginController extends Controller
                 $faileds_login = Failed_login::getFailedLogins($login_user[0]["id"]);
                 if (count($faileds_login) == 3) {         
                     Mail::to($login_user[0]["email"])->send(new FailLoginEmail($login_user));
+                    Notification_user::createTrack($login_user[0]["id"], 1);
 
                     $update_session = User::find($login_user[0]["id"]);
                     $update_session->status = 0;
