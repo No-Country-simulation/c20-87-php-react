@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\FailLoginEmail;
+use App\Models\Bank_account;
 use App\Models\Failed_login;
 use App\Models\User;
 use App\Models\BankAccount;
@@ -120,7 +121,7 @@ class LoginController extends Controller
         ]);
 
         // Crear una nueva cuenta bancaria en sistema
-        $account = BankAccount::create([
+        $account = Bank_account::create([
             'user_id' => $user->id, 
             'account_number' =>  mt_rand(1000000000, 9999999999),
             'balance' => 0,
