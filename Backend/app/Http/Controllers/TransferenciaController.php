@@ -23,11 +23,11 @@ class TransferenciaController extends Controller
             return response()->json(['message' => 'Usuario no autenticado'], 401);
         }
 
-        $data = $request->only('monto', 'id_user', 'destinatario');        
+        $data = $request->only('monto', 'id_user', 'num_cuenta');        
         $validator = Validator::make($data, [
             'monto' => 'required|numeric|min:0',
             'id_user' => 'required|exists:users,id',
-            'destinatario' => 'required'
+            'num_cuenta' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -36,7 +36,7 @@ class TransferenciaController extends Controller
             ], 422);
         }
 
-        $destinatario = Bank_account::getDestinatario($data['destinatario']);
+        $destinatario = Bank_account::getDestinatario($data['num_cuenta']);
         
         if (!$destinatario) {
             return response()->json([
@@ -52,14 +52,14 @@ class TransferenciaController extends Controller
             $movimiento = Transaction::create_movimiento($id_user, $destinatarioId, $monto, "transferencia", "pendiente");
             if (Bank_account::updateMontoOriginador($id_user, $monto)) {
                 Bank_account::updateMontoDestinatario($destinatarioId, $monto);
-                Transaction::updateStatus($movimiento, "fallida");
+                Transaction::updateStatus($movimiento, "completada");
             }else{
+                Transaction::updateStatus($movimiento, "fallida");
                 return response()->json([
                     'errors' => "Saldo insuficiente para realizar la transferencia"
                 ], 400);
             }
 
-            Transaction::updateStatus($movimiento, "completada");
             $to = User::find($request->id_user);
             $from = User::find($destinatario[0]["destinatario"]);
             $movimiento = Transaction::find($movimiento);
