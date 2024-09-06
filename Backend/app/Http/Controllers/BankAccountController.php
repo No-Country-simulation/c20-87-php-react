@@ -29,7 +29,7 @@ class BankAccountController extends Controller
         // Guardar la transacción en la tabla 'transactions'
         $transactionId = Transaction::create_movimiento(
             $account->id, // from_account_id y to_account_id son el mismo para depósitos
-            $account->id,
+            $account->null,
             $validatedData['amount'],
             'depósito',  // Asegúrate de que el tipo coincide con el definido en la tabla
             'completada'
@@ -60,7 +60,7 @@ class BankAccountController extends Controller
         // Guardar la transacción en la tabla 'transactions'
         $transactionId = Transaction::create_movimiento(
             $account->id, // from_account_id y to_account_id son el mismo para retiros
-            $account->id,
+            $account->null,
             $validatedData['amount'],
             'retiro',  // Valor actualizado para coincidir con el definido en la base de datos
             'completada'
@@ -73,38 +73,4 @@ class BankAccountController extends Controller
         return response()->json(['message' => 'Extracción realizada con éxito', 'account' => $account], 201);
     }
 
-    public function pay_service(Request $request){
-        $data = $request->only('user_id', 'amount', 'number_client', 'name_service');
-        $validatorPay = Validator::make($data, [
-            'user_id' => 'required|exists:users,id',
-            'amount' => 'required',
-            'number_client' => 'required', 
-            'name_service' => 'required',
-        ]);
-
-        if ($validatorPay->fails()) {
-            return response()->json([
-                'errors' => $validatorPay->errors()
-            ], 422);
-        }
-        
-        $pago_servicio = Bank_account::realizarPagoServicio($request);
-        if ($pago_servicio) {
-            $pay_service = Pay_service::create_pay($request);
-            if ($pay_service) {
-                Score_crediticio::scoreCrediticio($request->user_id);
-                return response()->json([
-                    'message' => 'Pago realizado con exito',
-                ], 200);
-            }else{
-                return response()->json([
-                    'message' => 'Error al realizar el pago',
-                ], 400);
-            }
-        }else{
-            return response()->json([
-                'errors' => "Saldo insuficiente para realizar la transferencia"
-            ], 400);
-        }       
-    }
 }
