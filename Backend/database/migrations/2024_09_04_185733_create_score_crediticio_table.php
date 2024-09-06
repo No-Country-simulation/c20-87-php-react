@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('notifications', function (Blueprint $table) {
+        Schema::create('score_crediticios', function (Blueprint $table) {
             $table->id();
-            $table->string('name_notification');
-            $table->boolean('status');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->integer('score');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notifications');
+        Schema::dropIfExists('score_crediticio');
     }
 };
