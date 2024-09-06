@@ -3,9 +3,11 @@
 use App\Http\Controllers\DesbloquearUser;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BankAccountController;
+use App\Http\Controllers\PaymentControllerr;
 use Illuminate\Foundation\Auth\User;
 use App\Http\Controllers\TransferenciaController;
 use App\Http\Controllers\FiltersController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,7 +35,11 @@ Route::controller(LoginController::class)->group(function(){
 Route::controller(BankAccountController::class)->group(function(){
     Route::middleware('auth:sanctum')->post('/deposit', 'deposit');
     Route::middleware('auth:sanctum')->post('/withdraw', 'withdraw');
-    Route::middleware('auth:sanctum')->post('/pay_service', 'pay_service');    
+    //Route::middleware('auth:sanctum')->post('/pay_service', 'pay_service');    
+});
+
+Route::controller(PaymentController::class)->group(function(){
+    Route::middleware('auth:sanctum')->post('/payservice', 'payservice');
 });
 
 

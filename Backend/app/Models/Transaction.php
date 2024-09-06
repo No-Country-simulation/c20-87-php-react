@@ -9,6 +9,14 @@ class Transaction extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'from_account_id',
+        'to_account_id',
+        'amount',
+        'type',
+        'status'
+    ];
+
     static function create_movimiento($originador, $destinatario, $monto, $type, $status){
         $create_movimiento = new Transaction();
         $create_movimiento->from_account_id = $originador;
