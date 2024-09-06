@@ -2,7 +2,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bank_account;
-use App\Models\BankAccount;
 use App\Models\Pay_service;
 use App\Models\Score_crediticio;
 use App\Models\Transaction;
@@ -22,7 +21,7 @@ class BankAccountController extends Controller
             'amount' => 'required|numeric|min:0.01',
         ]);
 
-        $account = BankAccount::find($validatedData['account_id']);
+        $account = Bank_account::find($validatedData['account_id']);
         $account->balance += $validatedData['amount'];
         $account->save();
 
@@ -48,7 +47,7 @@ class BankAccountController extends Controller
             'amount' => 'required|numeric|min:0.01',
         ]);
     
-        $account = BankAccount::find($validatedData['account_id']);
+        $account = Bank_account::find($validatedData['account_id']);
     
         if ($account->balance < $validatedData['amount']) {
             return response()->json(['message' => 'Fondos insuficientes'], 400);
