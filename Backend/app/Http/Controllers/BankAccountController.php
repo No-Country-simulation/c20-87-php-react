@@ -2,8 +2,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bank_account;
-use App\Models\BankAccount;
 use App\Models\Pay_service;
+use App\Models\Score_crediticio;
 use App\Models\Transaction;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Support\Facades\Validator;
@@ -21,7 +21,7 @@ class BankAccountController extends Controller
             'amount' => 'required|numeric|min:0.01',
         ]);
 
-        $account = BankAccount::find($validatedData['account_id']);
+        $account = Bank_account::find($validatedData['account_id']);
         $account->balance += $validatedData['amount'];
         $account->save();
 
@@ -34,6 +34,7 @@ class BankAccountController extends Controller
             'completada'
         );
 
+        Score_crediticio::scoreCrediticio($account->user_id);
         return response()->json(['message' => 'Depósito realizado con éxito', 'account' => $account], 201);
     }
 
@@ -46,7 +47,7 @@ class BankAccountController extends Controller
             'amount' => 'required|numeric|min:0.01',
         ]);
     
-        $account = BankAccount::find($validatedData['account_id']);
+        $account = Bank_account::find($validatedData['account_id']);
     
         if ($account->balance < $validatedData['amount']) {
             return response()->json(['message' => 'Fondos insuficientes'], 400);
@@ -67,7 +68,7 @@ class BankAccountController extends Controller
         if ($transactionId === false) {
             return response()->json(['message' => 'Error al registrar la transacción'], 500);
         }
-    
+        Score_crediticio::scoreCrediticio($account->user_id);
         return response()->json(['message' => 'Extracción realizada con éxito', 'account' => $account], 201);
     }
 

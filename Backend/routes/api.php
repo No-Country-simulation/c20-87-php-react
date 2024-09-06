@@ -4,6 +4,7 @@ use App\Http\Controllers\DesbloquearUser;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\PaymentControllerr;
+use App\Http\Controllers\EvaluacionCrediticia;
 use Illuminate\Foundation\Auth\User;
 use App\Http\Controllers\TransferenciaController;
 use App\Http\Controllers\FiltersController;
@@ -52,6 +53,9 @@ Route::controller(TransferenciaController::class)->group(function(){
     Route::middleware('auth:sanctum')->post('/generar_transferencia', 'create_transferencia');
 });
 
+Route::controller(EvaluacionCrediticia::class)->group(function(){
+    Route::get('validacion_crediticia/evaluar_score', 'evaluacion_score');
+});
 
 Route::controller(BalanceController::class)->group(function(){
     Route::middleware('auth:sanctum')->get('/listar_balance', 'listAllBalances');

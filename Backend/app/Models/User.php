@@ -56,4 +56,18 @@ class User extends Authenticatable
                     ->select("users.id", "users.username", "users.email", "tu.type_user", "ba.balance", "ba.currency", "users.status", "users.session")
                     ->get();
     }
+
+    static function clientesAplicables() {
+        $date = date("Y-m-d");
+        $date_now = date("Y-m-d H:i:s");
+        $clients = User::join("score_crediticios AS sc", "sc.user_id", "=", "users.id")
+                        ->whereRaw("sc.score > 3")
+                        ->whereNotIn("users.id", function($query) use ($date, $date_now){
+                            $query->select("nu.user_id")
+                                    ->from("notification_users AS nu")
+                                    ->where("nu.notification_id", 4)
+                                    ->whereBetween("nu.created_at", [$date." 00:00:00", $date_now]);
+                        })->get();
+        return $clients;
+    }
 }
