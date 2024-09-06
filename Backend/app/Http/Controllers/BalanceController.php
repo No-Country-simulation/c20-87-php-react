@@ -19,7 +19,7 @@ class BalanceController extends Controller
     // Verificación del tipo de usuario (solo para usuarios con type_user = 3)
     $user = auth()->user();
     if ($user->type_user !== 3) {
-        return response()->json(['message' => 'Forbidden: Access denied'], 403);
+        return response()->json(['message' => 'Forbidden: Accesso denegado'], 403);
     }
 
     // Continuar con la consulta de balances si el usuario es type_user = 3
@@ -30,8 +30,7 @@ class BalanceController extends Controller
             return [
                 'user_id' => $bankAccount->user_id,
                 'account_number' => $bankAccount->account_number,
-                'name' => $bankAccount->user->name,
-                'lastname' => $bankAccount->user->lastname,
+                'full_name' => $bankAccount->user->name . ' ' . $bankAccount->user->lastname,
                 'balance' => $bankAccount->balance,
             ];
         });
