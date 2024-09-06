@@ -11,6 +11,7 @@ use App\Http\Controllers\FiltersController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BalanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,4 +55,8 @@ Route::controller(TransferenciaController::class)->group(function(){
 
 Route::controller(EvaluacionCrediticia::class)->group(function(){
     Route::get('validacion_crediticia/evaluar_score', 'evaluacion_score');
+});
+
+Route::controller(BalanceController::class)->group(function(){
+    Route::middleware('auth:sanctum')->get('/listar_balance', 'listAllBalances');
 });

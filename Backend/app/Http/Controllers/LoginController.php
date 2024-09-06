@@ -96,18 +96,29 @@ class LoginController extends Controller
 
     // Metodo create_user para crear usuario y automáticamente su cuenta
     public function create_user(Request $request) {
-        $credentials = $request->only('email', 'username');
+
+        // Validación de datos
+        $credentials = $request->only('email', 'username', 'password', 'phone_number');
         $validator = Validator::make($credentials, [
             'email' => 'required|unique:users,email',
-            'username' => 'required|unique:users,username',
+            'username' => 'required|string|alpha_dash|unique:users,username',
+            'password' => 'required|string|min:8',
+            'phone_number' => [
+            'required',
+            'string',
+            'regex:/^\+?[1-9]\d{7,19}$/', // Permite el formato internacional
+            ],
+
         ]);
 
+        // Retornar mensaje de error
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors()
             ], 422);
         }
 
+        // Crear usuario con sus respectivos campos
         $user = User::create([
             'username' => $request->input('username'),
             'name' => $request->input('name'),
@@ -128,6 +139,7 @@ class LoginController extends Controller
             'currency' => 'PESO',
         ]);
     
+        // Retornar mensaje en json de usuario creado
         return response()->json(['message' => 'Usuario creado', 'user' => $user], 201);
     }
 

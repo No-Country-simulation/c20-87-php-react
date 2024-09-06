@@ -48,5 +48,10 @@ class Bank_account extends Model
 
         return $update;
     }    
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     
 }
