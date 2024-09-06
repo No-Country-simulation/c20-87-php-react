@@ -9,14 +9,6 @@ class BankAccount extends Model
 {
     use HasFactory;
 
-    // Especifica los campos que se pueden llenar masivamente
-    protected $fillable = [
-        'user_id',
-        'account_number',
-        'balance',
-        'currency',
-    ];
-
     // Relación con el modelo User
     public function user()
     {
