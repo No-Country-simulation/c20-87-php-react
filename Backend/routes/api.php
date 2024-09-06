@@ -8,6 +8,7 @@ use App\Http\Controllers\TransferenciaController;
 use App\Http\Controllers\FiltersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BalanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,4 +44,9 @@ Route::controller(FiltersController::class)->group(function(){
 
 Route::controller(TransferenciaController::class)->group(function(){
     Route::middleware('auth:sanctum')->post('/generar_transferencia', 'create_transferencia');
+});
+
+
+Route::controller(BalanceController::class)->group(function(){
+    Route::middleware('auth:sanctum')->get('/listar_balance', 'listAllBalances');
 });
