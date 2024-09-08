@@ -27,7 +27,6 @@ class PaymentController extends Controller
                 'errors' => $e->errors() 
             ], 422);
         }
-
         // Obtengo la cuenta bancaria del usuario
         $account = Bank_account::where('user_id', $request->user_id)->first();
 
