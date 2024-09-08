@@ -1,18 +1,30 @@
-- name: Deploy to server
-  env:
-    SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-    SERVER_IP: ${{ secrets.SERVER_IP }}
-    USER: ${{ secrets.USER }}
-  run: |
-    echo "$SSH_PRIVATE_KEY" > private_key.pem
-    chmod 600 private_key.pem
-    ssh -o StrictHostKeyChecking=no -i private_key.pem $USER@$SERVER_IP << 'EOF'
-      cd /path/to/your/project || exit
-      git pull origin main
-      composer install --no-dev --optimize-autoloader
-      php artisan migrate --force
-      php artisan config:cache
-      php artisan route:cache
-      sudo systemctl restart nginx
-      sudo systemctl restart php8.2-fpm
-    EOF
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          USER: ${{ secrets.USER }}
+        run: |
+          ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY $USER@$SERVER_IP << 'EOF'
+            cd /path/to/your/project || exit
+            git pull origin main
+            composer install --no-dev --optimize-autoloader
+            php artisan migrate --force
+            php artisan config:cache
+            php artisan route:cache
+            sudo systemctl restart nginx
+            sudo systemctl restart php8.2-fpm
+          EOF
