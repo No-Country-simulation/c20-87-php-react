@@ -3,6 +3,7 @@
 use App\Http\Controllers\DesbloquearUser;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BankAccountController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\PaymentControllerr;
 use App\Http\Controllers\EvaluacionCrediticia;
 use Illuminate\Foundation\Auth\User;
@@ -59,4 +60,11 @@ Route::controller(EvaluacionCrediticia::class)->group(function(){
 
 Route::controller(BalanceController::class)->group(function(){
     Route::middleware('auth:sanctum')->get('/listar_balance', 'listAllBalances');
+});
+
+Route::middleware('auth:sanctum')->prefix('admin')->controller(AdminUserController::class)->group(function() {
+    Route::post('/users/{id}/enable', 'enable');
+    Route::post('/users/{id}/disable', 'disable');
+    Route::delete('/users/{id}', 'delete');
+    Route::put('/users/{id}', 'update');
 });
