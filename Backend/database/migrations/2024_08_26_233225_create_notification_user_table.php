@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('notification_user', function (Blueprint $table) {
+        Schema::create('notification_users', function (Blueprint $table) {
             $table->id();  // Identificador único (BigInt Auto Increment)
             $table->foreignId('user_id')->constrained()->onDelete('cascade');  // FK a users (BigInt)
             $table->foreignId('notification_id')->constrained('notifications')->onDelete('cascade');  // FK a notifications (BigInt)
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notification_user');
+        Schema::dropIfExists('notification_users');
     }
 };

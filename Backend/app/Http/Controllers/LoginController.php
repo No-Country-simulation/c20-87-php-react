@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Mail\FailLoginEmail;
+use App\Models\Bank_account;
 use App\Models\Failed_login;
 use App\Models\User;
-use App\Models\BankAccount; 
+use App\Models\BankAccount;
+use App\Models\Notification_user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Response;
@@ -57,6 +59,7 @@ class LoginController extends Controller
                 $faileds_login = Failed_login::getFailedLogins($login_user[0]["id"]);
                 if (count($faileds_login) == 3) {         
                     Mail::to($login_user[0]["email"])->send(new FailLoginEmail($login_user));
+                    Notification_user::createTrack($login_user[0]["id"], 1);
 
                     $update_session = User::find($login_user[0]["id"]);
                     $update_session->status = 0;
@@ -93,18 +96,31 @@ class LoginController extends Controller
 
     // Metodo create_user para crear usuario y automáticamente su cuenta
     public function create_user(Request $request) {
-        $credentials = $request->only('email', 'username');
+
+        // Validación de datos
+        $credentials = $request->only('email', 'username', 'name', 'lastname', 'password', 'type_user', 'phone_number');
         $validator = Validator::make($credentials, [
             'email' => 'required|unique:users,email',
-            'username' => 'required|unique:users,username',
-        ]);
+            'username' => 'required|string|alpha_dash|unique:users,username',
+            'name' => 'required|string',
+            'lastname' => 'required|string',
+            'password' => 'required|string|min:8',
+            'type_user' => 'required|integer',
+            'phone_number' => [
+            'required',
+            'string',
+            'regex:/^\+?[1-9]\d{7,19}$/', // Permite el formato internacional
+            ],
 
+        ]);
+        // Retornar mensaje de error
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors()
             ], 422);
         }
 
+        // Crear usuario con sus respectivos campos
         $user = User::create([
             'username' => $request->input('username'),
             'name' => $request->input('name'),
@@ -118,14 +134,16 @@ class LoginController extends Controller
         ]);
 
         // Crear una nueva cuenta bancaria en sistema
-        $account = BankAccount::create([
+        $account = Bank_account::create([
             'user_id' => $user->id, 
             'account_number' =>  mt_rand(1000000000, 9999999999),
             'balance' => 0,
             'currency' => 'PESO',
         ]);
-    
-        return response()->json(['message' => 'Usuario creado', 'user' => $user], 201);
+        
+        $dataUser = User::getDataUser($user->id);
+        // Retornar mensaje en json de usuario creado
+        return response()->json(['message' => 'Usuario creado', 'user' => $dataUser], 201);
     }
 
 }

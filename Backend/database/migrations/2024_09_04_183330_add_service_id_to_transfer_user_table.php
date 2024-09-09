@@ -8,14 +8,14 @@ class AddServiceIdToTransferUserTable extends Migration
 {
     public function up()
     {
-        Schema::table('transfer_user', function (Blueprint $table) {
-            $table->foreignId('service_id')->nullable()->after('transfer_id')->constrained('services')->onDelete('set null');
+        Schema::table('payservice_user', function (Blueprint $table) {
+            $table->foreignId('service_id')->nullable()->after('transaction_id')->constrained('services')->onDelete('set null');
         });
     }
 
     public function down()
     {
-        Schema::table('transfer_user', function (Blueprint $table) {
+        Schema::table('payservice_user', function (Blueprint $table) {
             $table->dropForeign(['service_id']);
             $table->dropColumn('service_id');
         });

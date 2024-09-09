@@ -37,5 +37,40 @@ class DatabaseSeeder extends Seeder
             "balance" => "250230",
             "currency" => "PESO"
         ]);
+
+        \App\Models\Notification::create([
+            'name_notification' => "Fail login",
+            'status' => 1
+        ]);
+
+        \App\Models\Notification::create([
+            'name_notification' => "Transferencia realizada",
+            'status' => 1
+        ]);
+
+        \App\Models\Notification::create([
+            'name_notification' => "Transferencia recibida",
+            'status' => 1
+        ]);
+
+        \App\Models\Notification::create([
+            'name_notification' => "aprobacion credito 100mil",
+            'status' => 1
+        ]);
+
+        \App\Models\Service::create([
+            'name_service' => 'Edesur',
+            'status' => 1
+        ]);
+
+        \App\Models\Service::create([
+            'name_service' => 'MetroGas',
+            'status' => 1
+        ]);
+
+        \App\Models\Service::create([
+            'name_service' => 'Movistar',
+            'status' => 1
+        ]);
     }
 }

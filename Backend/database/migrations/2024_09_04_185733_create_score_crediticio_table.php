@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pay_services', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');  // FK a users (BigInt)
-            $table->string("name_service", 100);
-            $table->integer("number_client");
-            $table->decimal('amount', 15, 2);
+        Schema::create('score_crediticios', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->integer('score');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pay_services');
+        Schema::dropIfExists('score_crediticio');
     }
 };
