@@ -3,6 +3,7 @@
 use App\Http\Controllers\DesbloquearUser;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BankAccountController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\PaymentControllerr;
 use Illuminate\Foundation\Auth\User;
 use App\Http\Controllers\TransferenciaController;
@@ -49,4 +50,11 @@ Route::controller(FiltersController::class)->group(function(){
 
 Route::controller(TransferenciaController::class)->group(function(){
     Route::middleware('auth:sanctum')->post('/generar_transferencia', 'create_transferencia');
+});
+
+Route::middleware('auth:sanctum')->prefix('admin')->controller(AdminUserController::class)->group(function() {
+    Route::post('/users/{id}/enable', 'enable');
+    Route::post('/users/{id}/disable', 'disable');
+    Route::delete('/users/{id}', 'delete');
+    Route::put('/users/{id}', 'update');
 });
