@@ -13,6 +13,7 @@ use App\Http\Controllers\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BalanceController;
+use App\Http\Controllers\Credito_user;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,4 +68,8 @@ Route::middleware('auth:sanctum')->prefix('admin')->controller(AdminUserControll
     Route::post('/users/{id}/disable', 'disable');
     Route::delete('/users/{id}', 'delete');
     Route::put('/users/{id}', 'update');
+});
+
+Route::controller(Credito_user::class)->group(function(){
+    Route::middleware('auth:sanctum')->post('/pedir_credito', 'solicitud_credito');
 });
