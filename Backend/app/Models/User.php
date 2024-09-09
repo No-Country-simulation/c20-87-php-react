@@ -67,6 +67,13 @@ class User extends Authenticatable
                                     ->from("notification_users AS nu")
                                     ->where("nu.notification_id", 4)
                                     ->whereBetween("nu.created_at", [$date." 00:00:00", $date_now]);
+                        })
+                        ->whereNotIn("users.id", function($query){
+                            $query->select("cu.user_id")
+                                    ->from("credito_users AS cu")
+                                    ->where("reclamado", 1)
+                                    ->whereIn("estado_credito", ["vigente", "mora"])
+                                    ->where("fecha_pago", null);
                         })->get();
         return $clients;
     }

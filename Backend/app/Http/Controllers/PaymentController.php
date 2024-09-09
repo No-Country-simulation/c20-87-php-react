@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\BankAccount;
 use App\Models\Bank_account;
+use App\Models\Score_crediticio;
 use App\Models\Service;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
@@ -66,6 +67,7 @@ class PaymentController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+            Score_crediticio::scoreCrediticio($request->user_id);
         });
 
         return response()->json(['message' => 'Pago realizado con éxito'], 200);
