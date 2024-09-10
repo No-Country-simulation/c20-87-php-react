@@ -68,6 +68,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->controller(AdminUserControll
     Route::post('/users/{id}/disable', 'disable');
     Route::delete('/users/{id}', 'delete');
     Route::put('/users/{id}', 'update');
+    Route::get('/users', 'index');
 });
 
 Route::controller(Credito_user::class)->group(function(){
