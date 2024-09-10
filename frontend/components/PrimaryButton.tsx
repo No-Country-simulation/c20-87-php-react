@@ -1,3 +1,4 @@
+import { Button } from 'antd'
 import Link from 'next/link'
 import React from 'react'
 
@@ -8,9 +9,17 @@ interface PrimaryButtonProps {
 }
 
 export default function PrimaryButton({label , href = "", extendClassName }:PrimaryButtonProps) {
+  if (href) {
+    return (
+      <Link href={href} className={`bg-blue-900 p-2 shadow-lg text-white ${extendClassName}`}>
+        {label}
+      </Link>
+    )
+  }
+
   return (
-    <Link href={href} className={`bg-blue-900 p-2 shadow-lg ${extendClassName}`}>
-      <h1 className="text-white">{label}</h1>
-    </Link>
+    <Button type="primary" htmlType="submit" className={`bg-blue-900 p-2 shadow-lg text-white ${extendClassName}`}>
+      {label}
+    </Button>
   )
 }
