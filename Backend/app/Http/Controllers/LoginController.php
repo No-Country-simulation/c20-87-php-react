@@ -98,11 +98,14 @@ class LoginController extends Controller
     public function create_user(Request $request) {
 
         // Validación de datos
-        $credentials = $request->only('email', 'username', 'password', 'phone_number');
+        $credentials = $request->only('email', 'username', 'name', 'lastname', 'password', 'type_user', 'phone_number');
         $validator = Validator::make($credentials, [
             'email' => 'required|unique:users,email',
             'username' => 'required|string|alpha_dash|unique:users,username',
+            'name' => 'required|string',
+            'lastname' => 'required|string',
             'password' => 'required|string|min:8',
+            'type_user' => 'required|integer',
             'phone_number' => [
             'required',
             'string',
@@ -110,7 +113,6 @@ class LoginController extends Controller
             ],
 
         ]);
-
         // Retornar mensaje de error
         if ($validator->fails()) {
             return response()->json([
@@ -138,9 +140,10 @@ class LoginController extends Controller
             'balance' => 0,
             'currency' => 'PESO',
         ]);
-    
+        
+        $dataUser = User::getDataUser($user->id);
         // Retornar mensaje en json de usuario creado
-        return response()->json(['message' => 'Usuario creado', 'user' => $user], 201);
+        return response()->json(['message' => 'Usuario creado', 'user' => $dataUser], 201);
     }
 
 }

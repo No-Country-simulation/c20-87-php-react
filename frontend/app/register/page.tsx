@@ -100,7 +100,7 @@ export default function Login() {
                 </Form>
             </div>
             <p className='text-white mt-4'>Ya tienes una cuenta?
-                <Link href="/register" className="text-blue-500 text-white mt-4 underline ml-1">Inicia sesión</Link>
+                <Link href="/login" className=" text-white mt-4 underline ml-1">Inicia sesión</Link>
             </p>
         </div>
     );

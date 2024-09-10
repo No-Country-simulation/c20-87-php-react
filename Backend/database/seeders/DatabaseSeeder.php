@@ -57,5 +57,20 @@ class DatabaseSeeder extends Seeder
             'name_notification' => "aprobacion credito 100mil",
             'status' => 1
         ]);
+
+        \App\Models\Service::create([
+            'name_service' => 'Edesur',
+            'status' => 1
+        ]);
+
+        \App\Models\Service::create([
+            'name_service' => 'MetroGas',
+            'status' => 1
+        ]);
+
+        \App\Models\Service::create([
+            'name_service' => 'Movistar',
+            'status' => 1
+        ]);
     }
 }
