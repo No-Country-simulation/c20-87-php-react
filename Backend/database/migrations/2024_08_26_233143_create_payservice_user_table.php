@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transfer_user', function (Blueprint $table) {
+        Schema::create('payservice_user', function (Blueprint $table) {
             $table->id();  // Identificador único (BigInt Auto Increment)
             $table->foreignId('user_id')->constrained()->onDelete('cascade');  // FK a users (BigInt)
-            $table->foreignId('transfer_id')->constrained('transactions')->onDelete('cascade');  // FK a transactions (BigInt)
+            $table->foreignId('transaction_id')->constrained('transactions')->onDelete('cascade');  // FK a transactions (BigInt)
             $table->timestamps();  // created_at y updated_at (TIMESTAMP)
         });
     }

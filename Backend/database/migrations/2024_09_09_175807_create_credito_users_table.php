@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pay_services', function (Blueprint $table) {
+        Schema::create('credito_users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');  // FK a users (BigInt)
-            $table->string("name_service", 100);
-            $table->integer("number_client");
-            $table->decimal('amount', 15, 2);
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->decimal('monto', 15, 2)->default(0);
+            $table->string('fecha_pago')->nullable();
+            $table->enum('estado_credito', ['vigente', 'mora', 'pagado']);
+            $table->integer('reclamado')->default(0);
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pay_services');
+        Schema::dropIfExists('credito_users');
     }
 };
