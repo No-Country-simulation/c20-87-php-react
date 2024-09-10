@@ -98,14 +98,19 @@ class LoginController extends Controller
     public function create_user(Request $request) {
 
         // Validación de datos
-        $credentials = $request->only('email', 'username', 'name', 'lastname', 'password', 'type_user', 'phone_number');
+        $credentials = $request->only('email', 'username', 'name', 'lastname', 'password', 'phone_number');
         $validator = Validator::make($credentials, [
-            'email' => 'required|unique:users,email',
-            'username' => 'required|string|alpha_dash|unique:users,username',
-            'name' => 'required|string',
-            'lastname' => 'required|string',
-            'password' => 'required|string|min:8',
-            'type_user' => 'required|integer',
+            'email' => [
+            'required',
+            'email',
+            'unique:users,email',
+            'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+            'max:64'
+            ],
+            'username' => 'required|string|alpha_dash|unique:users,username|min:3|max:15',
+            'name' => 'required|string|max:50',
+            'lastname' => 'required|string|max:50',
+            'password' => 'required|string|min:8|max:30',
             'phone_number' => [
             'required',
             'string',
@@ -128,9 +133,9 @@ class LoginController extends Controller
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
             'phone_number' => $request->input('phone_number'),
-            'type_user' => $request->input('type_user'),
+            'type_user' => 1,
             'status' => 1,
-            'session' => 1,
+            'session' => 0,
         ]);
 
         // Crear una nueva cuenta bancaria en sistema
