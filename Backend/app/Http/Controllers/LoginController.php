@@ -108,8 +108,8 @@ class LoginController extends Controller
             'max:64'
             ],
             'username' => 'required|string|alpha_dash|unique:users,username|min:3|max:15',
-            'name' => 'required|string|max:50',
-            'lastname' => 'required|string|max:50',
+            'name' => 'required|string|min:2|max:50',
+            'lastname' => 'required|string|min:2|max:50',
             'password' => 'required|string|min:8|max:30',
             'phone_number' => [
             'required',
@@ -133,7 +133,7 @@ class LoginController extends Controller
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
             'phone_number' => $request->input('phone_number'),
-            'type_user' => 1,
+            'type_user' => $request->input('type_user'),
             'status' => 1,
             'session' => 0,
         ]);
