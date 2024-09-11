@@ -105,7 +105,7 @@ class LoginController extends Controller
             'name' => 'required|string',
             'lastname' => 'required|string',
             'password' => 'required|string|min:8',
-            'type_user' => 'required|integer',
+            'type_user' => 'required|integer|in:1,2',
             'phone_number' => [
             'required',
             'string',
