@@ -135,7 +135,7 @@ class LoginController extends Controller
             'phone_number' => $request->input('phone_number'),
             'type_user' => $request->input('type_user'),
             'status' => 1,
-            'session' => 0,
+            'session' => 1,
         ]);
 
         // Crear una nueva cuenta bancaria en sistema
