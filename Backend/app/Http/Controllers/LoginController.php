@@ -98,7 +98,7 @@ class LoginController extends Controller
     public function create_user(Request $request) {
 
         // Validación de datos
-        $credentials = $request->only('email', 'username', 'name', 'lastname', 'password', 'phone_number');
+        $credentials = $request->only('email', 'username', 'name', 'lastname', 'password', 'phone_number', 'type_user');
         $validator = Validator::make($credentials, [
             'email' => [
             'required',
@@ -111,6 +111,7 @@ class LoginController extends Controller
             'name' => 'required|string|min:2|max:50',
             'lastname' => 'required|string|min:2|max:50',
             'password' => 'required|string|min:8|max:30',
+            'type_user' => 'required|integer',
             'phone_number' => [
             'required',
             'string',
