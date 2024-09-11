@@ -7,8 +7,35 @@ use App\Models\Credito_user as ModelsCredito_user;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
+use function PHPUnit\Framework\isEmpty;
+
 class Credito_user extends Controller
 {
+
+    public function get_info_credito(Request $request){
+        $data = $request->only('id_user');        
+        $validator = Validator::make($data, [
+            'id_user' => 'required|exists:users,id'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $creditos_users = ModelsCredito_user::getCreditoUser($request->id_user);
+        if (!empty($creditos_users)) {
+            return response()->json([
+                'response' => $creditos_users
+            ], 200);
+        }else{
+            return response()->json([
+                'response' => "No tienes historial de creditos"
+            ], 400);
+        }
+    }
+
     public function solicitud_credito(Request $request){
         $data = $request->only('id_user');        
         $validator = Validator::make($data, [
@@ -21,7 +48,7 @@ class Credito_user extends Controller
             ], 422);
         }
         
-        $credito = ModelsCredito_user::getCreditoUser($request->id_user);
+        $credito = ModelsCredito_user::getNewCreditoUser($request->id_user);
         if ($credito) {
             $fecha_pago = date("Y-m-d", strtotime("+15 days"));
 
@@ -42,7 +69,7 @@ class Credito_user extends Controller
         }else{
             return response()->json([
                 'response' => "Lamentamos informarte que aun no tienes un credito displonible"
-            ], 202);
+            ], 400);
         }
     }
 }

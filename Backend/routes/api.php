@@ -72,4 +72,5 @@ Route::middleware('auth:sanctum')->prefix('admin')->controller(AdminUserControll
 
 Route::controller(Credito_user::class)->group(function(){
     Route::middleware('auth:sanctum')->post('/pedir_credito', 'solicitud_credito');
+    Route::middleware('auth:sanctum')->post('/infomacion_creditos', 'get_info_credito');
 });
