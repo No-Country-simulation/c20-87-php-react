@@ -1,5 +1,6 @@
 import { Providers } from "@/store/Providers";
 import AuthGuard from '../../Authentication/AuthGuard';
+import { ProvidersNext } from "@/Authentication/NextgGuard";
 
 export default function HomeBankLayout({
     children,
@@ -10,9 +11,11 @@ export default function HomeBankLayout({
     return (
 
         <Providers>
-            <AuthGuard>
-                {children}
-            </AuthGuard>
+            <ProvidersNext>
+                <AuthGuard>
+                    {children}
+                </AuthGuard>
+            </ProvidersNext>
         </Providers>
     );
 }
