@@ -69,10 +69,10 @@ class TransferenciaController extends Controller
 
             $data = ["to" => $to, "from" => $from, "monto" => $monto, "movimiento" => $movimiento];
 
-            Notification_user::createTrack($to->id, 2);
+            /*Notification_user::createTrack($to->id, 2);
             Notification_user::createTrack($from->id, 3);
             Mail::to($to->email)->send(new NotificacionTransferenciaEnviada($data));
-            Mail::to($from->email)->send(new NotificacionTransferenciaRecibida($data));
+            Mail::to($from->email)->send(new NotificacionTransferenciaRecibida($data));*/
 
             return response()->json([
                 'message' => 'Transferencia completada exitosamente',
