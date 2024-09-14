@@ -76,6 +76,7 @@ class TransferenciaController extends Controller
 
             return response()->json([
                 'message' => 'Transferencia completada exitosamente',
+                "user" => User::getDataUser($request->id_user)
             ], 200);
         });
     }
