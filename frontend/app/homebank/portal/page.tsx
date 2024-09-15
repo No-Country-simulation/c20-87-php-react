@@ -1,12 +1,16 @@
 import { Button } from 'antd'
 import Link from 'next/link'
 import React from 'react'
+import NavbarPortal from '@/components/NavbarPortal'
+import { HomeBank } from '@/components/HomeBank'
 
 export default function Portal() {
 
     return (
         <>
-            <div className="p-24 flex flex-col items-center gap-3">
+            <NavbarPortal />
+            <HomeBank />
+            {/* <div className="p-24 flex flex-col items-center gap-3">
                 <h1>Home de nuestra cuenta de banco</h1>
                 <ul>
                     <li>Navbar</li>
@@ -31,7 +35,7 @@ export default function Portal() {
                     </Link>
                
                 </div>
-            </div>
+            </div> */}
         </>
     )
 }
