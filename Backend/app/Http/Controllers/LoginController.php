@@ -100,12 +100,18 @@ class LoginController extends Controller
         // Validación de datos
         $credentials = $request->only('email', 'username', 'name', 'lastname', 'password', 'type_user', 'phone_number');
         $validator = Validator::make($credentials, [
-            'email' => 'required|unique:users,email',
-            'username' => 'required|string|alpha_dash|unique:users,username',
-            'name' => 'required|string',
-            'lastname' => 'required|string',
-            'password' => 'required|string|min:8',
-            'type_user' => 'required|integer',
+            'email' => [
+            'required',
+            'email',
+            'unique:users,email',
+            'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+            'max:64'
+            ],
+            'username' => 'required|string|alpha_dash|unique:users,username|min:3|max:15',
+            'name' => 'required|string|min:2|max:50',
+            'lastname' => 'required|string|min:2|max:50',
+            'password' => 'required|string|min:8|max:30',
+            'type_user' => 'required|integer|in:1,2',
             'phone_number' => [
             'required',
             'string',

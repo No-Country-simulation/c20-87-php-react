@@ -3,6 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 
 export default function Portal() {
+
     return (
         <>
             <div className="p-24 flex flex-col items-center gap-3">
@@ -21,6 +22,14 @@ export default function Portal() {
                     <Link href="/">
                         <Button type="primary">HOME</Button>
                     </Link>
+                    <Link href="/homebank/perfil">
+                        <Button type="primary">perfil</Button>
+                    </Link>
+                    
+                    <Link href="/homebank/transferencia">
+                        <Button type="primary">transs</Button>
+                    </Link>
+               
                 </div>
             </div>
         </>

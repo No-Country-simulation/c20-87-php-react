@@ -18,6 +18,14 @@ class Credito_user extends Model
     ];
 
     static function getCreditoUser($id_user){
+        $creditos_user = Credito_user::where("user_id", $id_user)
+                                        ->where("reclamado", 1)
+                                        ->orderBy("created_at", "DESC")
+                                        ->get()->toArray();
+        return $creditos_user;
+    }
+
+    static function getNewCreditoUser($id_user){
         $credito = Credito_user::where("user_id", $id_user)
                                 ->where("reclamado", 0)
                                 ->where("fecha_pago", null)->get();
