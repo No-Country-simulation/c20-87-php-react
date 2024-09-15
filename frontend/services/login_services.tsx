@@ -26,7 +26,7 @@ export default async function login_services({ username, password }: LoginProps)
         },
         );
 
-        console.log('Login exitoso, datos del servidor:', response.data);
+        // console.log('Login exitoso, datos del servidor:', response.data);
 
         return response.data;
     } catch (error) {
@@ -38,65 +38,3 @@ export default async function login_services({ username, password }: LoginProps)
         throw error;
     }
 }
-
-
-// 'use client'
-// import login_services from '@/services/login_services'
-// import React from 'react'
-// import { useForm } from "react-hook-form"
-
-// type FormData = {
-//   firstName: string
-//   password: string
-// }
-
-// export default function Login() {
-//   const {
-//     register,
-//     handleSubmit,
-//     formState: { errors },
-//   } = useForm<FormData>()
-
-
-//   const onHandleData = async (data: FormData) => {
-//     try {
-      
-//       const response = await login_services({
-//         username: data.firstName,
-//         password: data.password
-//       });
-      
-//       console.log(response); 
-//     } catch (error) {
-//       console.error("Error durante la autenticación:", error); 
-//     }
-
-//     console.log(data)
-//   };
-
-//   return (
-//     <form className="flex flex-col w-1/4 gap-4 justify-center m-auto p-4" onSubmit={handleSubmit(onHandleData)}>
-//       <label>First Name</label>
-//       <input 
-//         className="border-2 border-black" 
-//         {...register("firstName", { required: true })}
-//       />
-//       {errors.firstName && <span>Este campo es requerido</span>}
-
-//       <label>Password</label>
-//       <input 
-//         type="password" 
-//         className="border-2 border-black" 
-//         {...register("password", { required: true })}
-//       />
-//       {errors.password && <span>Este campo es requerido</span>}
-
-//       <button
-//         className='bg-blue-600 p-2 text-white'
-//         type="submit"
-//       >
-//         Enviar
-//       </button>
-//     </form>
-//   )
-// }

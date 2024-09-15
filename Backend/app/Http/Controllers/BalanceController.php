@@ -30,8 +30,7 @@ class BalanceController extends Controller
             return [
                 'user_id' => $bankAccount->user_id,
                 'account_number' => $bankAccount->account_number,
-                'name' => $bankAccount->user->name,
-                'lastname' => $bankAccount->user->lastname,
+                'full_name' => $bankAccount->user->name . ' ' . $bankAccount->user->lastname,
                 'balance' => $bankAccount->balance,
             ];
         });
