@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Card, CardBody } from "@nextui-org/react";
 import { useForm } from "react-hook-form";
 import { useSelector } from 'react-redux';
-import transfer_services from "@/services/transfer_services";
 import { RootState } from "@/store/store";
+import transfer_services from "@/services/transfer_services";
 
 interface PropsTransfer {
   monto: string;
@@ -15,16 +15,20 @@ export default function Transfer() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null); 
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<PropsTransfer>();
 
   const user = useSelector((state: RootState) => state.auth.user[0]);
   const AUTH_TOKEN = useSelector((state: RootState) => state.auth.token);
+  
 
   const handleOpen = () => {
     setIsOpen(true);
-    setSuccessMessage(null); 
+    setSuccessMessage(null);
+    setErrorMessage(null);
   };
+
   const handleClose = () => {
     setIsOpen(false);
     reset(); 
@@ -32,15 +36,27 @@ export default function Transfer() {
 
   const SubmitData = async (data: PropsTransfer) => {
     setIsLoading(true);
+    setErrorMessage(null);
+    setSuccessMessage(null);
+
     try {
-      await transfer_services({ ...data, id_user: user.id }, AUTH_TOKEN || "");
-      setSuccessMessage("Transferencia realizada con éxito.");
+      const response = await transfer_services({ ...data, id_user: user.id }, AUTH_TOKEN || "");
+      
+      if (response.message) {
+        setSuccessMessage(response.message);
+      } 
+      else if (response.error) {
+        setErrorMessage(response.error);
+      }
+
       setTimeout(() => {
         handleClose();
         setIsLoading(false);
       }, 2000);
-    } catch (error) {
+
+    } catch (error: any) {
       console.error("Error en la transferencia:", error);
+      setErrorMessage(error.response?.data?.message || "Ocurrió un error durante la transferencia.");
       setIsLoading(false);
     }
   };
@@ -81,13 +97,22 @@ export default function Transfer() {
                   {errors.monto && <span>{errors.monto.message}</span>}
                 </div>
 
-                {successMessage &&
+                {successMessage && (
                   <Card className="bg-green-100">
                     <CardBody>
-                      <p>{successMessage}</p>
+                      <p className="text-green-500" >{successMessage}</p>
                     </CardBody>
                   </Card>
-                }
+                )}
+
+                {errorMessage && (
+                  <Card className="bg-red-100">
+                    <CardBody>
+                      <p className="text-red-500">{errorMessage}</p>
+                    </CardBody>
+                  </Card>
+                )}
+
                 <ModalFooter>
                   <Button color="primary" type="submit" disabled={isLoading}>
                     {isLoading ? "Enviando..." : "Transferir"}
