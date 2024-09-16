@@ -1,14 +1,39 @@
 "use client"
 import PrimaryButton from '@/components/PrimaryButton'
+import register_services from '@/services/register_services'
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons'
 import { Form, Input, Select } from 'antd'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import PhoneInput from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
 
-export default function Login() {
+interface PropsRegister {
+    username : string,
+    name : string,
+    lastname : string,
+    email: string,
+    password :string ,
+    phone_number : string,
+    type_user : number
+}
+
+export default function Register() {
+
+    const router = useRouter(); 
+
     const [phoneNumber, setPhoneNumber] = useState("");
+
+    const onHandleData = async (data: PropsRegister) => {
+        try {
+          const dataUser = await register_services(data);
+          console.log(data)  
+        //   router.push('/login');
+        } catch (error) {
+          console.error('Error durante la autenticación:', error);
+        }
+      };
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6 bg-gradient-to-b from-blue-900 to-blue-500">
@@ -22,7 +47,7 @@ export default function Login() {
                     className="space-y-4"
                     initialValues={{ remember: true }}
                     onFinish={(values) => {
-                        console.log('Success:', values);
+                        onHandleData(values)
                     }}>
                     <Form.Item
                         name="username"
@@ -74,7 +99,7 @@ export default function Login() {
                             className="border-gray-300 rounded-lg" />
                     </Form.Item>
                     <Form.Item
-                        name="phone-number"
+                        name="phone_number"
                         rules={[{ required: true, message: 'Por favor ingrese su número de celular!' }]}>
                         <PhoneInput
                             defaultCountry="US"
