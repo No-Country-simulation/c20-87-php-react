@@ -6,7 +6,6 @@ export default function Portal() {
 
     return (
         <>
-            <NavbarPortal />
             <HomeBank />
         </>
     )
