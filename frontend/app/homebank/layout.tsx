@@ -13,7 +13,9 @@ export default function HomeBankLayout({
         <Providers>
             <ProvidersNext>
                 <AuthGuard>
+                    <div className="bg-slate-100">
                     {children}
+                    </div>
                 </AuthGuard>
             </ProvidersNext>
         </Providers>
