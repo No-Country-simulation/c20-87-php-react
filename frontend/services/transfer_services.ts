@@ -32,7 +32,6 @@ export default async function transfer_services(data: dataTransfer, token: strin
       return { message: response.data.message , user : response.data.user};
     }
 
-    console.log(response.data)
     return response.data;
   } catch (error: any) {
     if (error.response) {

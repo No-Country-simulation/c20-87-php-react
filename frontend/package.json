@@ -11,10 +11,12 @@
   "dependencies": {
     "@nextui-org/react": "^2.4.6",
     "@reduxjs/toolkit": "^2.2.7",
+    "@types/js-cookie": "^3.0.6",
     "antd": "^5.20.2",
     "axios": "^1.7.7",
     "bootstrap-icons": "^1.11.3",
     "framer-motion": "^11.5.4",
+    "js-cookie": "^3.0.5",
     "next": "14.2.6",
     "react": "^18",
     "react-dom": "^18",
