@@ -6,7 +6,7 @@ import bannerImagePortal from "@/public/bancoimg.png"
 export const BannerFamily = () => {
 
   return (
-    <Card className="lg:w-3/4 m-auto">
+    <Card className="lg:w-4/5 m-auto">
       <CardBody className="lg:flex lg:flex-row  gap-2">
         <div className="lg:w-1/2 flex flex-col gap-3 justify-center p-3">
           <h1 className="font-semibold">Brindale a tu familia la protección que necesitas.</h1>
