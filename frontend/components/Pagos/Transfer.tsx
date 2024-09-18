@@ -1,10 +1,13 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Card, CardBody, Tabs ,Tab } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Card, CardBody } from "@nextui-org/react";
 import { useForm } from "react-hook-form";
-import { useSelector } from 'react-redux';
+import { useSelector , useDispatch } from 'react-redux';
 import { RootState } from "@/store/store";
 import transfer_services from "@/services/transfer_services";
+import { updateUser } from "@/store/authSlice";
+
+
 
 interface PropsTransfer {
     monto: string;
@@ -27,6 +30,8 @@ export default function Transfer({ isOpen, setIsOpen }: TransferProps) {
     const AUTH_TOKEN = useSelector((state: RootState) => state.auth.token);
     console.log(user)
 
+    const dispatch = useDispatch()
+
     useEffect(() => {
         if (isOpen) {
             setSuccessMessage(null);
@@ -47,10 +52,12 @@ export default function Transfer({ isOpen, setIsOpen }: TransferProps) {
         try {
             const response = await transfer_services({ ...data, id_user: user.id }, AUTH_TOKEN || "");
 
-            console.log(response)
-
-            if (response.message) {
+            const newUser = response.user[0]
+            
+            if (response.message && response.user) {
                 setSuccessMessage(response.message);
+                dispatch(updateUser(newUser));
+                console.log("aqui el usuario actualizado:", newUser)
             } else if (response.error) {
                 setErrorMessage(response.error);
             }
@@ -79,7 +86,7 @@ export default function Transfer({ isOpen, setIsOpen }: TransferProps) {
                         <ModalBody>
                             <form className="flex flex-col gap-3" onSubmit={handleSubmit(SubmitData)}>
                                 <Button isDisabled >
-                                    Saldo disponible : {user.balance} ARS
+                                    Saldo disponible : {user?.balance} ARS
                                 </Button>
                                 <div>
                                     <Input

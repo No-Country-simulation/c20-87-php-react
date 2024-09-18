@@ -5,7 +5,7 @@ import PrimaryButton from './PrimaryButton'
 import { itemsNavbarB, itemsNavbarA } from '@/configs/items-navbar'
 import Image from 'next/image'
 import { AlignRightOutlined, ArrowRightOutlined, CloseOutlined } from '@ant-design/icons'
-import Logo from "../public/logo.svg"
+import Logo from "../public/imglogobank.png"
 
 export default function Navbar() {
 
@@ -17,13 +17,13 @@ export default function Navbar() {
 
     return (
         <div className="w-full flex mr-5">
-            <div className="w-[30%] lg:w-[20%] flex justify-center ml-5">
+            <div className="w-[30%] lg:w-[20%] flex justify-center ml-5 mt-5">
                 <Image
                     src={Logo}
                     alt="Picture of the author"
                     width={250}
                     height={250}
-                    className="w-full sm:w-1/2 md:w-1/2 lg:w-full lg:h-[150px] "
+                    className="w-full sm:w-1/2 md:w-1/2 lg:w-full lg:h-[70px] "
                 />
             </div>
 

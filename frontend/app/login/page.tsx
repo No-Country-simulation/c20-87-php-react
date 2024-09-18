@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
+
 type FormData = {
     username: string
     password: any
@@ -24,7 +25,8 @@ export default function Login() {
         const dataUser = await login_services(data);
         const {user , token} = dataUser.response
         localStorage.setItem('token', token);
-        // console.log(success , user, token)
+        console.log(user, token)
+
         dispatch(setCredentials({ token, user }));
 
         router.push('/homebank/portal');

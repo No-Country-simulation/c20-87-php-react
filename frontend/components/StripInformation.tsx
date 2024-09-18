@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
-import Logo from "@/public/logo.svg"
+import Logo from "@/public/imglogobank.png"
 import PrimaryButton from './PrimaryButton'
 
 function StripInformation() {
@@ -11,13 +11,13 @@ function StripInformation() {
                 <Image
                     src={Logo}
                     alt="Picture of the author"
-                    width={50}
-                    height={50}
-                    className="w-1/2 sm:w-1/2 md:w-1/2 lg:w-full lg:h-[150px] "
+                    width={250}
+                    height={250}
+                    className="w-1/2 sm:w-1/2 md:w-1/2 lg:w-full lg:h-[100px] "
                 />
             </div>
 
-            <div className="w-[90%] lg:w-[20%] flex lg:justify-center ml-5 items-center mb-5">
+            <div className="w-[90%] lg:w-[20%] flex lg:justify-center ml-5 items-center my-5">
                 <p className="text-center">Pasaportes, licencias, cédulas de residencia y más.</p>
             </div>
 
