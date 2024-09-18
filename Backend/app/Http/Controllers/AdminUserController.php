@@ -18,14 +18,6 @@ class AdminUserController extends Controller
             return $next($request);
         });
     }
-    
-
-    public function index() //Mostrar todos los usuarios
-    {
-    $users = User::all();
-
-    return response()->json($users);
-    }
 
     public function index() //Mostrar todos los usuarios
     {

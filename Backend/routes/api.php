@@ -48,7 +48,8 @@ Route::controller(PaymentController::class)->group(function(){
 
 
 Route::controller(FiltersController::class)->group(function(){
-    Route::middleware('auth:sanctum')->get('/transactions', 'transactions');   
+    Route::middleware('auth:sanctum')->get('/transactions', 'transactions');  
+    Route::middleware('auth:sanctum')->get('/getSevices', 'obtener_servicios');    
 });
 
 Route::controller(TransferenciaController::class)->group(function(){

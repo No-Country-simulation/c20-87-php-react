@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
 
@@ -65,6 +66,11 @@ class FiltersController extends Controller
 
         // Retorno los resultados
         return response()->json($transactions);
+    }
+
+    public function obtener_servicios() {
+        $servicios = Service::all();
+        return $servicios;
     }
 }
 
