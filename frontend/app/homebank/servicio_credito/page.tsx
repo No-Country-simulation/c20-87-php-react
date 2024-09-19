@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 
 interface Credit {
   estado_credito: string;
-  monto: number;
+  monto: string; // Cambio a string para coincidir con el formato de datos
   fecha_pago: string;
   created_at: string;
 }
@@ -177,6 +177,7 @@ function TableCredits() {
         }
 
         if (Array.isArray(response_credit.data.response)) {
+          console.log(response_credit.data.response)
           setCredits(response_credit.data.response);
         } else {
           setCredits([]); // O manejar el error como prefieras
@@ -205,35 +206,17 @@ function TableCredits() {
       </TableHeader>
       <TableBody>
         <TableRow key="1">
-          <TableCell>Tony Reichert</TableCell>
-          <TableCell>CEO</TableCell>
-          <TableCell>Active</TableCell>
-          <TableCell>Active</TableCell>
+          <TableCell>Pagado</TableCell>
+          <TableCell>$100.000</TableCell>
+          <TableCell>15-09-2024</TableCell>
+          <TableCell>01-09-2024</TableCell>
         </TableRow>
         <TableRow key="2">
-          <TableCell>Zoey Lang</TableCell>
-          <TableCell>Technical Lead</TableCell>
-          <TableCell>Paused</TableCell>
-          <TableCell>Active</TableCell>
-        </TableRow>
-        <TableRow key="3">
-          <TableCell>Jane Fisher</TableCell>
-          <TableCell>Senior Developer</TableCell>
-          <TableCell>Active</TableCell>
-          <TableCell>Active</TableCell>
-        </TableRow>
-        <TableRow key="4">
-          <TableCell>William Howard</TableCell>
-          <TableCell>Community Manager</TableCell>
-          <TableCell>Vacation</TableCell>
-          <TableCell>Active</TableCell>
-        </TableRow>
-        <TableRow key="5">
-          <TableCell>{credits[0].estado_credito}</TableCell>
-          <TableCell>{credits[0].monto}</TableCell>
-          <TableCell>{credits[0].fecha_pago}</TableCell>
-          <TableCell>{credits[0].created_at}</TableCell>
-        </TableRow>
+          <TableCell>Pagado</TableCell>
+          <TableCell>$150.000</TableCell>
+          <TableCell>01-03-2024</TableCell>
+          <TableCell>15-02-2024</TableCell>
+        </TableRow>       
       </TableBody>
     </Table>
   );
