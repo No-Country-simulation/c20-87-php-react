@@ -5,6 +5,7 @@ import { QuickAccess } from './QuickAccess'
 import { UserOutlined, RightOutlined } from '@ant-design/icons';
 import { Card, Switch } from 'antd';
 import Link from 'next/link';
+import { Button } from '@nextui-org/react';
 
 export const HomeBank = () => {
 
@@ -39,7 +40,10 @@ export const HomeBank = () => {
           href="/transaction-history"
           className="flex items-center space-x-2 text-sm text-gray-600 font-light">
           <RightOutlined className="text-gray-500" style={{ fontSize: '16px' }} />
-          <span>Ver movimientos</span>
+          {/* <span>Ver movimientos</span> */}
+          <Link href={"/homebank/movements"} className={`bg-blue-900 p-2 shadow-lg text-white`}>
+            Ver movimientos
+          </Link>
         </a>
       </Card>
       <h4 className="text-lg font-light my-7">Accesos rápidos</h4>
