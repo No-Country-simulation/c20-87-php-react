@@ -7,7 +7,9 @@ export default function NavbarPortal() {
     return (
         <div className="w-full bg-slate-800 h-20 flex justify-between items-center text-white">
             <div className="pl-4">
-                <h1 className="text-2xl font-bold">InnovaBank</h1>
+                <Link href="/homebank/portal">
+                    <h1 className="text-2xl font-bold">InnovaBank</h1>
+                </Link>
             </div>
             <nav className="pr-4">
                 <ul className="flex justify-between">

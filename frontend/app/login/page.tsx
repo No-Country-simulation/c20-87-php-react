@@ -1,13 +1,14 @@
 "use client"
-import PrimaryButton from '@/components/PrimaryButton'
-import login_services from '@/services/login_services'
-import { setCredentials } from '@/store/authSlice'
-import { UserOutlined, LockOutlined } from '@ant-design/icons'
-import { Form, Input } from 'antd'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import React from 'react'
-import { useDispatch } from 'react-redux'
+import PrimaryButton from '@/components/PrimaryButton';
+import login_services from '@/services/login_services';
+import { setCredentials } from '@/store/authSlice';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Form, Input } from 'antd';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Spinner } from "@nextui-org/react";
 
 
 type FormData = {
@@ -19,9 +20,11 @@ export default function Login() {
 
     const dispatch = useDispatch();
     const router = useRouter(); 
-  
+    const [isLoading, setIsLoading] = useState(false);
+
     const onHandleData = async (data: FormData) => {
       try {
+        setIsLoading(true);
         const dataUser = await login_services(data);
         const {user , token} = dataUser.response
         localStorage.setItem('token', token);
@@ -32,6 +35,8 @@ export default function Login() {
         router.push('/homebank/portal');
       } catch (error) {
         console.error('Error durante la autenticación:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
   
@@ -69,7 +74,11 @@ export default function Login() {
 
                     </Form.Item>
                     <Form.Item className='flex justify-center items-center'>
-                        <PrimaryButton extendClassName='px-24' label={"Iniciar sesión"} />
+                    {isLoading ? (
+                        <Spinner />
+                        ) : (
+                        <PrimaryButton extendClassName="px-24" label="Iniciar sesión" />
+                        )}
                     </Form.Item>
                 </Form>
             </div>
