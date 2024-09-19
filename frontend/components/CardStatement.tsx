@@ -1,8 +1,10 @@
+"use client"
 import { Button, Card, CardBody, CardFooter, CardHeader, Divider, Popover, PopoverTrigger, PopoverContent, Switch } from '@nextui-org/react';
 import React, { useState } from 'react';
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import ClipBoard from "@/public/imgs/Clipboard";
+import Link from 'next/link';
 
 export default function CardStatement() {
     const user = useSelector((state: RootState) => state.auth.user[0]);
@@ -37,10 +39,19 @@ export default function CardStatement() {
             <Divider/>
             <CardFooter>
                 <div className="flex w-full justify-evenly gap-2">
-                    <Button variant="bordered">Ver Movimientos</Button>
+                    {/* <Button variant="bordered" >Ver Movimientos</Button> */}
+                    {/* <Link href="/homebank/servicios_pago">
+                        <Button variant="bordered">Ver Movimientos</Button>
+                    </Link> */}
+                    <Link href="/homebank/movements">
+                        <div className="min-w-[140px] text-sm border border-gray-300 text-black-900 p-2 rounded-lg cursor-pointer flex items-center justify-center hover:text-gray-600">
+                            Ver Movimientos
+                        </div>
+                    </Link>
+
                     <Popover placement="bottom" showArrow={true} color="foreground">
                         <PopoverTrigger>
-                            <Button variant="bordered"><ClipBoard width={20} height={20}/>CBU/Alias</Button>
+                            <Button variant="bordered" className='border-gray-300'><ClipBoard width={20} height={20}/>CBU/Alias</Button>
                         </PopoverTrigger>
                         <PopoverContent>
                             <div className="px-1 py-2">
