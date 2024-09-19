@@ -53,7 +53,8 @@ class User extends Authenticatable
         return User::join("type_users AS tu", "tu.id", "=", "users.type_user")
                     ->join("bank_accounts AS ba", "ba.user_id", "=", "users.id")
                     ->where("users.id", $id)
-                    ->select("users.id", "ba.id AS id_account", "ba.account_number AS number_accoun", "users.username", "users.name", "users.lastname", "users.email", "tu.type_user", "ba.balance", "ba.currency", "users.status", "users.session")
+                    ->select("users.id", "ba.id AS id_account", "ba.account_number AS number_accoun", "users.username", "users.name", "users.lastname", "users.email", "tu.type_user", "ba.currency", "users.status", "users.session")
+                    ->selectRaw("REPLACE(FORMAT(ba.balance, 0), ',', '.') AS balance")
                     ->get();
     }
 

@@ -1,4 +1,6 @@
 'use client'
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react';
 import { Button, Card, CardBody, Input, Select, SelectItem } from "@nextui-org/react";
 import ListPay_services from '@/services/listpay_services';
@@ -52,16 +54,27 @@ export default function PayServices() {
 
   if (loading) return <p>Loading...</p>;
 
+  const router = useRouter(); 
   const SendServices = async (data: PropsServices) => {
     setProcessing(true);
     try {
       const responseServices = await payservices_services({ ...data, user_id: user.id }, AUTH_TOKEN!);
       if (responseServices.error) {
-        alert(responseServices.error);
+        Swal.fire({
+          title: 'Error al realizar el pago',
+          text: responseServices.error,
+          icon: 'error'
+        });
       } else {
-        alert(responseServices.message || 'El pago se ha realizado con éxito');
+        //alert(responseServices.message || 'El pago se ha realizado con éxito');
+        Swal.fire({
+          title: '¡¡Pago realizado!!',
+          text: 'Pago realizado con éxito',
+          icon: 'success'
+        });
         reset();
         dispatch(updateUser(responseServices.user[0]));
+        router.push('/homebank/portal');
       }
     } finally {
       setProcessing(false);
@@ -107,7 +120,7 @@ export default function PayServices() {
               {...register("amount", { required: "Es obligatorio" })}
             />
             <Button className="my-4" color="primary" type="submit" isLoading={processing}>
-              {processing ? "Procesando..." : "Transferir"}
+              {processing ? "Procesando..." : "Pagar servicio"}
             </Button>
           </form>
           <Link href="/homebank/portal" className="text-blue-500 text-center">
