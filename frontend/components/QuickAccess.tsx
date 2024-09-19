@@ -8,6 +8,7 @@ import CreditCard from '@/public/imgs/CreditCard';
 import WalletIcon from '@/public/imgs/WalletIcon';
 import TransferIcon from '@/public/imgs/TransferIcon';
 import Link from 'next/link';
+import ContactIcon from '@/public/imgs/ContactIcon';
 
 
 export const QuickAccess = () => {
@@ -61,11 +62,14 @@ export const QuickAccess = () => {
       </Card>
 
       <Card className="cursor-pointer flex items-center justify-center p-4 hover:bg-slate-100" isPressable={true}>
+      <Link href={"/homebank/contacto"} >
         <div className="flex flex-col justify-center items-center gap-3">
-          <TransferIcon width={40} height={40}/>
-          <p>Transferencias</p>
+          <ContactIcon width={40} height={40}/>
+          <p>Contacto</p>
         </div>
-      </Card>
+      </Link>
+    </Card>
+
 
       <Transfer isOpen={isOpen} setIsOpen={setIsOpen}/>
   </div>

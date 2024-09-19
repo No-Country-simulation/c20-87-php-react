@@ -14,7 +14,7 @@ export default function NavbarPortal() {
             <nav className="pr-4">
                 <ul className="flex justify-between">
                     <li className="mr-4">
-                        <Link href="/perfil" className="cursor-pointer">
+                        <Link href="/homebank/perfil" className="cursor-pointer">
                             <span className="flex flex-col items-center">
                                 <UserOutlined className="mb-2" />
                                 <span className="text-sm">Perfil</span>

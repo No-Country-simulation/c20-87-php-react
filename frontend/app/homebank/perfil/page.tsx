@@ -1,9 +1,15 @@
-import React from 'react'
+// app/homebank/perfil.tsx
+import React from 'react';
+import UserProfile from '@/components/UserProfile';
+
 
 const Perfil = () => {
   return (
-    <div>Perfil</div>
-  )
-}
+    <div>
+     
+      <UserProfile />
+    </div>
+  );
+};
 
-export default Perfil
+export default Perfil;
