@@ -45,10 +45,12 @@ export const QuickAccess = () => {
       </Card>
 
       <Card className="cursor-pointer flex items-center justify-center p-4 hover:bg-slate-100" isPressable={true}>
+    <Link href={"/homebank/servicio_credito"} >
         <div className="flex flex-col justify-center items-center gap-3">
-          <CreditCard width={40} height={40}/>
+          <CashIcon width={40} height={40}/>
           <p>Creditos</p>
         </div>
+    </Link>
       </Card>
 
       <Card className="cursor-pointer flex items-center justify-center p-4 hover:bg-slate-100" isPressable={true}>

@@ -49,7 +49,7 @@ class Credito_user extends Controller
         }
         
         $credito = ModelsCredito_user::getNewCreditoUser($request->id_user);
-        if ($credito) {
+        if (!$credito->isEmpty()) {
             $fecha_pago = date("Y-m-d", strtotime("+15 days"));
 
             $credito_update = ModelsCredito_user::find($credito[0]->id);
