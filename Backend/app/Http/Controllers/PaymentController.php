@@ -8,6 +8,7 @@ use App\Models\Bank_account;
 use App\Models\Score_crediticio;
 use App\Models\Service;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
@@ -70,6 +71,6 @@ class PaymentController extends Controller
             Score_crediticio::scoreCrediticio($request->user_id);
         });
 
-        return response()->json(['message' => 'Pago realizado con éxito'], 200);
+        return response()->json(['message' => 'Pago realizado con éxito', 'user' => User::getDataUser($request->user_id)], 200);
     }
 }

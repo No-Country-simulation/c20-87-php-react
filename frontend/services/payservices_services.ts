@@ -1,21 +1,23 @@
 import axios from 'axios';
 
-const transfer_url = "http://127.0.0.1:8000/api/generar_transferencia";
+const transfer_url = "http://127.0.0.1:8000/api/payservice";
 
-interface dataTransfer {
-  monto: string;
-  num_cuenta: string;
-  id_user: string;
+interface dataTransferServices {
+  user_id: string
+  amount: string
+  number_client:string
+  service_id: string
 }
 
-export default async function transfer_services(data: dataTransfer, token: string) {
+export default async function payservices_services(data: dataTransferServices, token: string) {
   try {
     const response = await axios.post(
       transfer_url,
       {
-        monto: data.monto,
-        id_user: data.id_user,
-        num_cuenta: data.num_cuenta,
+        user_id: data.user_id,
+        amount: data.amount,
+        number_client : data.number_client,
+        service_id : data.service_id
       },
       {
         headers: {
@@ -24,8 +26,8 @@ export default async function transfer_services(data: dataTransfer, token: strin
       }
     );
 
-    if (response.data.errors) {
-      return { error: response.data.errors };
+    if (response.data.error) {
+      return { error: response.data.error };
     }
 
     if (response.data.message && response.data.user) {
@@ -38,8 +40,8 @@ export default async function transfer_services(data: dataTransfer, token: strin
       const { status, data } = error.response;
       console.error(`Error ${status}:`, data);
 
-      if (data.errors) {
-        return { error: data.errors }; 
+      if (data.error) {
+        return { error: data.error }; 
       }
 
       return { error: "Error en la transferencia", details: data };

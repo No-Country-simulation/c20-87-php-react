@@ -1,22 +1,12 @@
 import axios from 'axios';
 
-const transfer_url = "http://127.0.0.1:8000/api/generar_transferencia";
+const transfer_url = "http://127.0.0.1:8000/api/getSevices";
 
-interface dataTransfer {
-  monto: string;
-  num_cuenta: string;
-  id_user: string;
-}
 
-export default async function transfer_services(data: dataTransfer, token: string) {
+export default async function ListPay_services(token: string) {
   try {
-    const response = await axios.post(
+    const response = await axios.get(
       transfer_url,
-      {
-        monto: data.monto,
-        id_user: data.id_user,
-        num_cuenta: data.num_cuenta,
-      },
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -26,10 +16,6 @@ export default async function transfer_services(data: dataTransfer, token: strin
 
     if (response.data.errors) {
       return { error: response.data.errors };
-    }
-
-    if (response.data.message && response.data.user) {
-      return { message: response.data.message , user : response.data.user};
     }
 
     return response.data;
