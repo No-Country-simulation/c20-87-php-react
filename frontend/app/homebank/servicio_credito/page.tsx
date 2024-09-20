@@ -6,6 +6,7 @@ import {Card, CardHeader, CardBody, CardFooter, Divider, Link, Image, Button} fr
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@nextui-org/react";
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { updateUser } from '@/store/authSlice';
 
 interface Credit {
   estado_credito: string;
@@ -73,6 +74,7 @@ function CreditNew() {
     const user = useSelector((state: RootState) => state.auth.user[0]);
     const AUTH_TOKEN = useSelector((state: RootState) => state.auth.token);
     const solicitud_credit_url = "http://127.0.0.1:8000/api/pedir_credito";
+    const dispatch = useDispatch();
     const handleRequestCredit = async () => {
       try {
         const response = await axios.post(
@@ -100,8 +102,7 @@ function CreditNew() {
           text: response.data.response,
           icon: 'success'
         });
-    
-        return response.data;
+        dispatch(updateUser(response.data.user[0]));
       } catch (error: any) {
         if (error.response) {
           const { status, data } = error.response;
@@ -176,8 +177,7 @@ function TableCredits() {
           return;
         }
 
-        if (Array.isArray(response_credit.data.response)) {
-          console.log(response_credit.data.response)
+        if (Array.isArray(response_credit.data.response)) {          
           setCredits(response_credit.data.response);
         } else {
           setCredits([]); // O manejar el error como prefieras
@@ -203,9 +203,26 @@ function TableCredits() {
         <TableColumn className="uppercase font-bold">Monto</TableColumn>
         <TableColumn className="uppercase font-bold">Fecha Pago</TableColumn>
         <TableColumn className="uppercase font-bold">Fecha Solicitud</TableColumn>
+        <TableColumn className="uppercase font-bold">Acción</TableColumn>
       </TableHeader>
       <TableBody>
-        <TableRow key="1">
+      {credits.map((credit, index) => (
+          <TableRow key={index}>
+            <TableCell>{credit.estado_credito}</TableCell> 
+            <TableCell>{credit.monto}</TableCell> 
+            <TableCell>{credit.fecha_pago}</TableCell>
+            <TableCell>{new Date(credit.created_at).toLocaleDateString('es-ES')}</TableCell>
+            <TableCell>
+              <Button 
+                color={(credit.estado_credito !== 'vigente') ? '' : 'success' } 
+                disabled={credit.estado_credito !== 'vigente'} // Deshabilitar el botón si es "vigente"
+              >
+                {(credit.estado_credito !== 'vigente') ? 'Pagado' : 'Pagar' }
+              </Button>
+            </TableCell>
+          </TableRow>
+        ))}
+        {/*<TableRow key="1">
           <TableCell>Pagado</TableCell>
           <TableCell>$100.000</TableCell>
           <TableCell>15-09-2024</TableCell>
@@ -216,7 +233,7 @@ function TableCredits() {
           <TableCell>$150.000</TableCell>
           <TableCell>01-03-2024</TableCell>
           <TableCell>15-02-2024</TableCell>
-        </TableRow>       
+        </TableRow>       */}
       </TableBody>
     </Table>
   );

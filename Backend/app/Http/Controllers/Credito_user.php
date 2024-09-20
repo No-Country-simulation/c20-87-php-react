@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bank_account;
 use App\Models\Credito_user as ModelsCredito_user;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
@@ -64,7 +65,8 @@ class Credito_user extends Controller
             $update_balance->save();
 
             return response()->json([
-                'response' => "Felicidades ya tienes tu credito disponible"
+                'response' => "Felicidades ya tienes tu credito disponible",
+                'user' => User::getDataUser($request->id_user),
             ], 200);
         }else{
             return response()->json([
