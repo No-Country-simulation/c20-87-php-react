@@ -18,12 +18,10 @@
 
 ## 🛠️ **Tecnologías utilizadas**
 
-- **Frontend**: `React`, `Next.js`, `Material-UI (MUI)`
-- **Backend**: `Laravel`, `CodeIgniter`
+- **Frontend**: `React`, `Next.js`
+- **Backend**: `Laravel`
 - **Base de datos**: `MySQL`
 - **Autenticación**: `Laravel Passport` para autenticación OAuth2
-- **Notificaciones**: `WebSockets`
-- **Integraciones**: APIs de servicios bancarios y financieros externos
 
 ---
 
@@ -35,7 +33,6 @@
 - `PHP >= 7.4`
 - `Composer`
 - `MySQL`
-- `Redis` (opcional, para colas y notificaciones en tiempo real)
 
 ### **Pasos para la instalación**
 
